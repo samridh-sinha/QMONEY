@@ -35,7 +35,9 @@ public class PortfolioTrade {
   public void setTradeType(TradeType tradeType) {
     this.tradeType = tradeType;
   }
-
+  /**
+ * 
+ */
   public void setPurchaseDate(LocalDate purchaseDate) {
     this.purchaseDate = purchaseDate;
   }
@@ -56,6 +58,8 @@ public class PortfolioTrade {
   public TradeType getTradeType() {
     return tradeType;
   }
-  //solution
+  //solution 
+
+
 
 }

@@ -1,30 +1,27 @@
 
 package com.crio.warmup.stock;
 
-
-import com.crio.warmup.stock.dto.AnnualizedReturn;
-import com.crio.warmup.stock.dto.PortfolioTrade;
-import com.crio.warmup.stock.log.UncaughtExceptionHandler;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
+
+//import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import com.crio.warmup.stock.dto.Root;
+import com.crio.warmup.stock.log.UncaughtExceptionHandler;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import org.apache.logging.log4j.ThreadContext;
-import org.springframework.web.client.RestTemplate;
 
 
 public class PortfolioManagerApplication {
@@ -39,9 +36,18 @@ public class PortfolioManagerApplication {
   //  1. There can be few unused imports, you will need to fix them to make the build pass.
   //  2. You can use "./gradlew build" to check if your code builds successfully.
 
-  public static List<String> mainReadFile(String[] args) throws IOException, URISyntaxException {
-
-     return Collections.emptyList();
+  public static List<String> mainReadFile(String[] args) throws IOException, URISyntaxException, JsonMappingException, JsonParseException {
+    ObjectMapper object = getObjectMapper();  
+    File inputFile = resolveFileFromResources(args[0]); 
+    List<String> trades = object.readValue(inputFile,List.class); 
+    ObjectMapper objectmapper = getObjectMapper();    
+    Root[] root = objectmapper.readValue(inputFile, Root[].class);
+    List<String> symbols = new ArrayList<>(); 
+    for(Root r : root){
+      symbols.add(r.getSymbol());
+    }
+    return symbols; 
+    
   }
 
 
@@ -111,10 +117,10 @@ public class PortfolioManagerApplication {
   public static List<String> debugOutputs() {
 
      String valueOfArgument0 = "trades.json";
-     String resultOfResolveFilePathArgs0 = "";
-     String toStringOfObjectMapper = "";
-     String functionNameFromTestFileInStackTrace = "";
-     String lineNumberFromTestFileInStackTrace = "";
+     String resultOfResolveFilePathArgs0 = "/home/crio-user/workspace/samridh863-ME_QMONEY/qmoney/bin/main/trades.json";
+     String toStringOfObjectMapper = "com.fasterxml.jackson.databind.ObjectMapper@2f9f7dcf";
+     String functionNameFromTestFileInStackTrace = "PortfolioManagerApplicationTest.mainReadFile()";
+     String lineNumberFromTestFileInStackTrace = "22";
 
 
     return Arrays.asList(new String[]{valueOfArgument0, resultOfResolveFilePathArgs0,
@@ -131,9 +137,9 @@ public class PortfolioManagerApplication {
   public static void main(String[] args) throws Exception {
     Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler());
     ThreadContext.put("runId", UUID.randomUUID().toString());
-
-    printJsonObject(mainReadFile(args));
-
+    
+    printJsonObject(mainReadFile(args)); 
+    
 
 
   }
