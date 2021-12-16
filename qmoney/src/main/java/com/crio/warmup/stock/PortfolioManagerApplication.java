@@ -75,14 +75,16 @@ public class PortfolioManagerApplication {
         if(arg0.getClosingPrice()==arg1.getClosingPrice()) 
           return 0; 
         else if(arg0.getClosingPrice()>arg1.getClosingPrice()) 
-          return 1; 
-        return -1; 
+          return -1; 
+        return 1;  
+        
       }
     });
     List<String> sortedSymbol = new ArrayList<>();  
-    
+    List<String> prices = new ArrayList<>();
     for(TotalReturnsDto tr : trdto){
-      sortedSymbol.add(tr.getSymbol());
+      sortedSymbol.add(tr.getSymbol()); 
+      
     } 
   
     
@@ -125,8 +127,6 @@ public class PortfolioManagerApplication {
        return Arrays.asList(new String[]{valueOfArgument0, resultOfResolveFilePathArgs0,
         toStringOfObjectMapper, functionNameFromTestFileInStackTrace,
         lineNumberFromTestFileInStackTrace});
-  
-  
   }
 
   private static void printJsonObject(Object object) throws IOException {
@@ -136,23 +136,13 @@ public class PortfolioManagerApplication {
   }
 
 
-
-
-
   public static void main(String[] args) throws Exception {
     Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler());
     ThreadContext.put("runId", UUID.randomUUID().toString());
-
-
     printJsonObject(mainReadQuotes(args));
 
 
   }
-
-  
-
-
-  
 
 
 }
