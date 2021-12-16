@@ -75,8 +75,8 @@ public class PortfolioManagerApplication {
         if(arg0.getClosingPrice()==arg1.getClosingPrice()) 
           return 0; 
         else if(arg0.getClosingPrice()>arg1.getClosingPrice()) 
-          return -1; 
-        return 1;  
+          return 1; 
+        return -1;  
         
       }
     });
