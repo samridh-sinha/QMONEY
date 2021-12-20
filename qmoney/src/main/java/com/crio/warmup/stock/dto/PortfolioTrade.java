@@ -38,6 +38,7 @@ public class PortfolioTrade {
   /**
  * 
  */
+
   public void setPurchaseDate(LocalDate purchaseDate) {
     this.purchaseDate = purchaseDate;
   }
@@ -61,5 +62,6 @@ public class PortfolioTrade {
   //solution 
 
 
+  //solution
 
 }
