@@ -43,6 +43,7 @@ import org.springframework.web.client.RestTemplate;
 public class PortfolioManagerApplication {
 
   // TODO: CRIO_TASK_MODULE_REST_API
+  //  CRIO_TASK_MODULE_REST_API
   //  Find out the closing price of each stock on the end_date and return the list
   //  of all symbols in ascending order by its close value on end date.
 
@@ -232,24 +233,43 @@ public class PortfolioManagerApplication {
        PortfolioTrade[] portfolioTrades = objectMapper.readValue(file, PortfolioTrade[].class);
        RestTemplate restTemplate = new RestTemplate();
        PortfolioManager portfolioManager = PortfolioManagerFactory.getPortfolioManager(restTemplate);
-       return portfolioManager.calculateAnnualizedReturn(Arrays.asList(portfolioTrades), endDate);
-  }
+       return portfolioManager.calculateAnnualizedReturn(Arrays.asList(portfolioTrades), endDate); 
+      }
+  // TODO: CRIO_TASK_MODULE_CALCULATIONS
+  //  Now that you have the list of PortfolioTrade and their data, calculate annualized returns
+  //  for the stocks provided in the Json.
+  //  Use the function you just wrote #calculateAnnualizedReturns.
+  //  Return the list of AnnualizedReturns sorted by annualizedReturns in descending order.
 
+  // Note:
+  // 1. You may need to copy relevant code from #mainReadQuotes to parse the Json.
+  // 2. Remember to get the latest quotes from Tiingo API.
+
+  
+
+  // TODO: CRIO_TASK_MODULE_CALCULATIONS
+  //  Return the populated list of AnnualizedReturn for all stocks.
+  //  Annualized returns should be calculated in two steps:
+  //   1. Calculate totalReturn = (sell_value - buy_value) / buy_value.
+  //      1.1 Store the same as totalReturns
+  //   2. Calculate extrapolated annualized returns by scaling the same in years span.
+  //      The formula is:
+  //      annualized_returns = (1 + total_returns) ^ (1 / total_num_years) - 1
+  //      2.1 Store the same as annualized_returns
+  //  Test the same using below specified command. The build should be successful.
+  //     ./gradlew test --tests PortfolioManagerApplicationTest.testCalculateAnnualizedReturn
 
   private static String readFileAsString(String file) throws URISyntaxException, IOException {
     return new String(Files.readAllBytes(resolveFileFromResources(file).toPath()), "UTF-8");
   }
-
+  
   public static void main(String[] args) throws Exception {
     Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler());
     ThreadContext.put("runId", UUID.randomUUID().toString());
 
-
-
-    // printJsonObject(mainCalculateSingleReturn(args));
-
-
     printJsonObject(mainCalculateReturnsAfterRefactor(args));
+    
+
   }
 }
 
